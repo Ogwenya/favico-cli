@@ -1,12 +1,12 @@
 {
-  "name": "favico",
+  "name": "favico-cli",
   "version": "1.0.0",
   "description": "cli tool for favicon generation and image compression",
   "main": "source/index.js",
   "type": "module",
   "preferGlobal": true,
   "bin": {  
-    "favico": "./source/commands.js"  
+    "favico-cli": "./source/commands.js"  
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,14 +14,14 @@
   "keywords": [
     "cli",
     "favicon",
-    "generator",
-    "node"
+    "favico-cli",
+    "favicon generator"
   ],
   "author": "Ogwenya",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ogwenya/favico.git"
+    "url": "https://github.com/Ogwenya/favico-cli.git"
   },
   "dependencies": {
     "boxen": "^7.1.0",
@@ -31,5 +31,5 @@
     "figlet": "^1.6.0",
     "inquirer": "^9.2.2"
   },
-  "homepage": "https://github.com/Ogwenya/favico#readme"
+  "homepage": "https://github.com/Ogwenya/favico-cli#readme"
 }

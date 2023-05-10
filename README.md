@@ -7,29 +7,29 @@ Generated icons are stored in `Desktop/favico` directory.
 ## Installation
 
 ```bash
-npm i -g favico
+npm i -g favico-cli
 ```
 
 ## commands
 
-| Command                          | Description           |
-| -------------------------------- | --------------------- |
-| `favico --version`               | check current version |
-| `favico g /path/to/image`        | generate a favicon    |
-| `favico generate /path/to/image` | generate a favicon    |
+| Command                              | Description           |
+| ------------------------------------ | --------------------- |
+| `favico-cli --version`               | check current version |
+| `favico-cli g /path/to/image`        | generate a favicon    |
+| `favico-cli generate /path/to/image` | generate a favicon    |
 
 ### Examples
 
 #### Generating an icon
 
 ```bash
-favico generate ./logo.png
+favico-cli generate ./logo.png
 ```
 
 or
 
 ```bash
-favico g ./logo.png
+favico-cli g ./logo.png
 ```
 
 ![favicon example](./assets/favicon_example.png)
