@@ -1,6 +1,7 @@
-name: Node.js Package
+name: publish Package
 
 on: push
+
 jobs:
   build:
     runs-on: ubuntu-latest
