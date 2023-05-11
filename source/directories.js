@@ -39,7 +39,6 @@ const generateResultsDirectory = async () => {
 };
 
 export const setUpFaviconDirectory = async () => {
-  // const resultsDir = path.join(mainDir, "results");
   const resultsDir = await generateResultsDirectory();
   const imagesDir = path.join(resultsDir, "images");
   const filesDir = path.join(resultsDir, "files");
