@@ -94,16 +94,29 @@ export const generateFavicon = (imagePath) => {
 // ####################################
 // ########## COMPRESS IMAGE ##########
 // ####################################
-export const compressImage = async (imagePath) => {
+export const compressImage = async (imagePath, options) => {
   await displayTitle();
+
+  const replaceImage = options.replace || false;
 
   // Load the image file
   loadImage(imagePath).then(async (img) => {
-    const { name, ext: extension } = path.parse(imagePath);
-    const outputName = `${name}-compressed${extension}`;
+    const { dir, base, name, ext: extension } = path.parse(imagePath);
+
+    // if the replace option is true, set the outPut name to be the same as the image name provided
+    const outputName =
+      replaceImage === true ? base : `${name}-compressed${extension}`;
     const imageType =
       extension.substring(1) === "jpg" ? "jpeg" : extension.substring(1);
-    const resultsDir = await setUpCompressorDirectory();
+
+    /*
+      if the replace option is true, set the resultsDir name to be the same as 
+      the directory of the provided image so it will replace the image rather than
+       creating a copy 
+    */
+    const resultsDir =
+      replaceImage === true ? dir : await setUpCompressorDirectory();
+
     // Create a canvas element
     const canvas = createCanvas(img.width, img.height);
     const ctx = canvas.getContext("2d");
@@ -119,6 +132,12 @@ export const compressImage = async (imagePath) => {
     // Write the compressed image to a file
     fs.writeFileSync(path.join(resultsDir, outputName), buffer);
 
-    displaySuccessMessage(`compressed Image Saved in: ${resultsDir}`);
+    if (replaceImage === true) {
+      displaySuccessMessage(
+        `Image at: ${imagePath} has been successfully compressed and resaved`
+      );
+    } else {
+      displaySuccessMessage(`compressed Image Saved in: ${resultsDir}`);
+    }
   });
 };

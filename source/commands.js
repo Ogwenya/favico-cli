@@ -21,6 +21,10 @@ program
   .command("compress <imagePath>")
   .alias("c")
   .description("Compress Image")
-  .action((imagePath) => compressImage(imagePath));
+  .option(
+    "--replace",
+    "Replace the provided image with a compressed one rather than creating a new compressed image"
+  )
+  .action((imagePath, options) => compressImage(imagePath, options));
 
 program.parse(process.argv);
