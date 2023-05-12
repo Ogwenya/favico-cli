@@ -14,16 +14,24 @@ if (!fs.existsSync(favicoDir)) {
   fs.mkdirSync(favicoDir);
 }
 
-// generate results directory
-const generateResultsDirectory = async () => {
+/* 
+  generate results directory based on result type
+  result type can either be: 'favicon' or  'compressor
+    - 'favicon' for generating favicon
+    - 'compressor' for image compression
+ */
+const generateResultsDirectory = (result_type) => {
   /*
-    Find the highest numbered directory name in the favico directory
-    e.g result_001, result_002
+    Find the highest numbered directory name in the result directory
+    e.g result_001, result_002 favicon_001, compressor_001
   */
+
+  const folder_prefix = `${result_type}_`;
   let highestIndex = 0;
   fs.readdirSync(favicoDir).forEach((name) => {
-    if (name.startsWith("result_")) {
-      const index = parseInt(name.slice(7), 10);
+    if (name.startsWith(folder_prefix)) {
+      const index = parseInt(name.slice(name.indexOf("_") + 1));
+
       if (!isNaN(index) && index > highestIndex) {
         highestIndex = index;
       }
@@ -31,7 +39,9 @@ const generateResultsDirectory = async () => {
   });
 
   // Determine the name for the new result directory
-  const resultName = `result_${(highestIndex + 1).toString().padStart(3, "0")}`;
+  const resultName = `${folder_prefix}${(highestIndex + 1)
+    .toString()
+    .padStart(3, "0")}`;
   const resultDir = path.join(favicoDir, resultName);
   fs.mkdirSync(resultDir);
 
@@ -39,7 +49,7 @@ const generateResultsDirectory = async () => {
 };
 
 export const setUpFaviconDirectory = async () => {
-  const resultsDir = await generateResultsDirectory();
+  const resultsDir = await generateResultsDirectory("favicon");
   const imagesDir = path.join(resultsDir, "images");
   const filesDir = path.join(resultsDir, "files");
 
@@ -56,4 +66,12 @@ export const setUpFaviconDirectory = async () => {
   }
 
   return { resultsDir: resultsDir, imagesDir: imagesDir, filesDir: filesDir };
+};
+
+export const setUpCompressorDirectory = async () => {
+  const resultsDir = await generateResultsDirectory("compressor");
+  if (!fs.existsSync(resultsDir)) {
+    fs.mkdirSync(resultsDir);
+  }
+  return resultsDir;
 };

@@ -1,23 +1,24 @@
 import fs from "fs";
 import path from "path";
+import { createCanvas, loadImage } from "canvas";
 import { favicons } from "favicons";
-import figlet from "figlet";
-import { setUpFaviconDirectory } from "./directories.js";
-import { displayErrorMessage, displaySuccessMessage } from "./messages.js";
+
+import {
+  setUpFaviconDirectory,
+  setUpCompressorDirectory,
+} from "./directories.js";
+import {
+  displayTitle,
+  displayErrorMessage,
+  displaySuccessMessage,
+} from "./messages.js";
 
 // ######################################
 // ########## GENERATE FAVICON ##########
 // ######################################
 export const generateFavicon = (imagePath) => {
   // cli title
-  figlet("F A V I C O", function (err, data) {
-    if (err) {
-      displayErrorMessage("Something went wrong...");
-      console.dir(err);
-      return;
-    }
-    console.log(data);
-  });
+  displayTitle();
 
   const configuration = {
     path: "/",
@@ -87,5 +88,37 @@ export const generateFavicon = (imagePath) => {
     } catch (error) {
       displayErrorMessage(error.message);
     }
+  });
+};
+
+// ####################################
+// ########## COMPRESS IMAGE ##########
+// ####################################
+export const compressImage = async (imagePath) => {
+  await displayTitle();
+
+  // Load the image file
+  loadImage(imagePath).then(async (img) => {
+    const { name, ext: extension } = path.parse(imagePath);
+    const outputName = `${name}-compressed${extension}`;
+    const imageType =
+      extension.substring(1) === "jpg" ? "jpeg" : extension.substring(1);
+    const resultsDir = await setUpCompressorDirectory();
+    // Create a canvas element
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext("2d");
+
+    // Draw the image on the canvas
+    ctx.drawImage(img, 0, 0);
+
+    // Get the compressed image as a buffer
+    const buffer = canvas.toBuffer(`image/${imageType}`, {
+      quality: 0.5,
+    });
+
+    // Write the compressed image to a file
+    fs.writeFileSync(path.join(resultsDir, outputName), buffer);
+
+    displaySuccessMessage(`compressed Image Saved in: ${resultsDir}`);
   });
 };

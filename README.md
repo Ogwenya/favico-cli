@@ -17,6 +17,8 @@ npm i -g favico-cli
 | `favico-cli --version`               | check current version |
 | `favico-cli g /path/to/image`        | generate a favicon    |
 | `favico-cli generate /path/to/image` | generate a favicon    |
+| `favico-cli compress /path/to/image` | compress an image     |
+| `favico-cli c /path/to/image`        | compress an image     |
 
 ### Examples
 
@@ -33,3 +35,17 @@ favico-cli g ./logo.png
 ```
 
 ![favicon example](./assets/favicon_example.png)
+
+#### Compressing an Image
+
+```bash
+favico-cli compress ./testImage.jpg
+```
+
+or
+
+```bash
+favico-cli c ./testImage.jpg
+```
+
+![compressor example](./assets/compressor_example.png)

@@ -5,8 +5,8 @@
   "main": "source/index.js",
   "type": "module",
   "preferGlobal": true,
-  "bin": {  
-    "favico-cli": "./source/commands.js"  
+  "bin": {
+    "favico-cli": "./source/commands.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "boxen": "^7.1.0",
+    "canvas": "^2.11.2",
     "chalk": "^5.2.0",
     "commander": "^10.0.1",
     "favicons": "^7.1.2",

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { generateFavicon } from "./index.js";
+import { generateFavicon, compressImage } from "./index.js";
 
 const program = new Command();
 
@@ -16,5 +16,11 @@ program
   .alias("g")
   .description("Generate Favicon icon")
   .action((imagePath) => generateFavicon(imagePath));
+
+program
+  .command("compress <imagePath>")
+  .alias("c")
+  .description("Compress Image")
+  .action((imagePath) => compressImage(imagePath));
 
 program.parse(process.argv);

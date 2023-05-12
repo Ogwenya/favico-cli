@@ -1,4 +1,19 @@
 import boxen from "boxen";
+import figlet from "figlet";
+
+// display title
+export const displayTitle = async () => {
+  await new Promise((resolve, reject) => {
+    figlet("F A V I C O", function (err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        console.log(data);
+        resolve();
+      }
+    });
+  });
+};
 
 // error message
 export const displayErrorMessage = (message) => {
