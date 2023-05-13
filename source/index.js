@@ -12,6 +12,7 @@ import {
   displayErrorMessage,
   displaySuccessMessage,
 } from "./messages.js";
+import { convertSize } from "./converter.js";
 
 // ######################################
 // ########## GENERATE FAVICON ##########
@@ -99,8 +100,15 @@ export const compressImage = async (imagePath, options) => {
 
   const replaceImage = options.replace || false;
 
-  // Load the image file
-  loadImage(imagePath).then(async (img) => {
+  try {
+    const img = await loadImage(imagePath);
+
+    // get the original image size
+    const { size: originalImage } = fs.statSync(imagePath);
+
+    // convert the original image size to mb or kb or bytes
+    const originalImageSize = convertSize(originalImage);
+
     const { dir, base, name, ext: extension } = path.parse(imagePath);
 
     // if the replace option is true, set the outPut name to be the same as the image name provided
@@ -110,9 +118,9 @@ export const compressImage = async (imagePath, options) => {
       extension.substring(1) === "jpg" ? "jpeg" : extension.substring(1);
 
     /*
-      if the replace option is true, set the resultsDir name to be the same as 
+      if the replace option is true, set the resultsDir name to be the same as
       the directory of the provided image so it will replace the image rather than
-       creating a copy 
+       creating a copy
     */
     const resultsDir =
       replaceImage === true ? dir : await setUpCompressorDirectory();
@@ -132,12 +140,26 @@ export const compressImage = async (imagePath, options) => {
     // Write the compressed image to a file
     fs.writeFileSync(path.join(resultsDir, outputName), buffer);
 
+    // get the compressed image size
+    const { size: compressedImage } = fs.statSync(
+      path.join(resultsDir, outputName)
+    );
+
+    // convert the compressed image size to mb or kb or bytes
+    const compressedImageSize = convertSize(compressedImage);
+
     if (replaceImage === true) {
       displaySuccessMessage(
-        `Image at: ${imagePath} has been successfully compressed and resaved`
+        `Image at: ${imagePath} has been successfully compressed and resaved\n\nOriginal Image Size: ${originalImageSize}\nCompressed Image Size: ${compressedImageSize}\n`
       );
     } else {
-      displaySuccessMessage(`compressed Image Saved in: ${resultsDir}`);
+      displaySuccessMessage(
+        `compressed Image Saved in: ${resultsDir}\n\nOriginal Image Size: ${originalImageSize}\nCompressed Image Size: ${compressedImageSize}\n`
+      );
     }
-  });
+  } catch (error) {
+    displayErrorMessage(
+      `Pleaase ensure provided path is of an image\n\n${error.message}`
+    );
+  }
 };

@@ -12,13 +12,14 @@ npm i -g favico-cli
 
 ## commands
 
-| Command                              | Description           |
-| ------------------------------------ | --------------------- |
-| `favico-cli --version`               | check current version |
-| `favico-cli g /path/to/image`        | generate a favicon    |
-| `favico-cli generate /path/to/image` | generate a favicon    |
-| `favico-cli compress /path/to/image` | compress an image     |
-| `favico-cli c /path/to/image`        | compress an image     |
+| Command                                        | Description                                                 |
+| ---------------------------------------------- | ----------------------------------------------------------- |
+| `favico-cli --version`                         | check current version                                       |
+| `favico-cli g /path/to/image`                  | generate a favicon                                          |
+| `favico-cli generate /path/to/image`           | generate a favicon                                          |
+| `favico-cli compress /path/to/image`           | compress an image                                           |
+| `favico-cli c /path/to/image`                  | compress an image                                           |
+| `favico-cli compress /path/to/image` --replace | compress and replace the original with the compressed image |
 
 ### Examples
 
@@ -49,3 +50,17 @@ favico-cli c ./testImage.jpg
 ```
 
 ![compressor example](./assets/compressor_example.png)
+
+#### compressing and replacing an image
+
+```bash
+favico-cli compress ./testFolder/testImage.jpg --replace
+```
+
+or
+
+```bash
+favico-cli c ./testFolder/testImage.jpg --replace
+```
+
+![compressor with replace](./assets/compressor_example2.png)
